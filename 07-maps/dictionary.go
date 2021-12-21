@@ -12,6 +12,7 @@ const (
 	ErrorNotFound       = DictionaryErr("could not find the word you were looking for")
 	ErrWordExists       = DictionaryErr("cannot add word because it already exists")
 	ErrWordDoesNotExist = DictionaryErr("cannot update word because it does not exists")
+	ErrNotFound         = DictionaryErr("word not found")
 )
 
 func (d Dictionary) Search(word string) (string, error) {
@@ -51,6 +52,11 @@ func (d Dictionary) Update(word string, value string) error {
 	default:
 		return err
 	}
+
+	return nil
+}
+
+func (d Dictionary) Delete(word string) error {
 
 	return nil
 }
