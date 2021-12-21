@@ -6,16 +6,8 @@ const englishHelloPrefix = "Hello, "
 const spanishHelloPrefix = "Hola, "
 const frenchHelloPrefix = "Bonjour, "
 
-func Hello(name string, language string) string {
-
-	prefix := englishHelloPrefix
-	//if language == "Spanish" {
-	//	prefix = spanishHelloPrefix
-	//}
-	//
-	//if language == "French" {
-	//	prefix = frenchHelloPrefix
-	//}
+func greetingPrefix(language string) (prefix string) {
+	prefix = englishHelloPrefix
 
 	switch language {
 	case "French":
@@ -23,13 +15,18 @@ func Hello(name string, language string) string {
 
 	case "Spanish":
 		prefix = spanishHelloPrefix
-	}
 
+	}
+	return
+
+}
+
+func Hello(name string, language string) string {
 	if name == "" {
 		name = "World"
 	}
 
-	return prefix + name
+	return greetingPrefix(language) + name
 }
 
 func main() {
