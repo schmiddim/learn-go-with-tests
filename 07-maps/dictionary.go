@@ -16,19 +16,15 @@ const (
 func (d Dictionary) Search(word string) (string, error) {
 
 	def, ok := d[word]
-
 	if !ok {
 		return "", ErrorNotFound
-
 	}
-
 	return def, nil
 }
 
 func (d Dictionary) Add(word string, value string) error {
 
 	_, err := d.Search(word)
-
 	switch err {
 	case nil:
 		return ErrWordExists
