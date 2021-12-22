@@ -8,7 +8,7 @@ import (
 
 var cases = []struct {
 	Description string
-	Arabic      int
+	Arabic      uint16
 	Roman       string
 }{
 	{"1 gets converted to I", 1, "I"},
@@ -25,6 +25,7 @@ var cases = []struct {
 	{"47 gets converted to XLVII", 47, "XLVII"},
 	{"49 gets converted to XLIX", 49, "XLIX"},
 	{"50 gets converted to L", 50, "L"},
+	{"420 gets converted to CDXX", 420, "CDXX"},
 	{"583 gets converted to DLXXXIII", 583, "DLXXXIII"},
 	{"789 gets converted to DCCLXXXIX", 789, "DCCLXXXIX"},
 	{"1954 gets converted to MCMLIV", 1954, "MCMLIV"},
@@ -54,13 +55,16 @@ func TestRomanNumerals(t *testing.T) {
 	}
 }
 func TestPropertiesOfConversion(t *testing.T) {
-	assertion := func(arabic int) bool {
+	assertion := func(arabic uint16) bool {
+		if arabic > 3999 {
+			return true
+		}
 		roman := ConvertToRoman(arabic)
 		fromRoman := ConvertToArabic(roman)
 		return fromRoman == arabic
 	}
 
-	if err := quick.Check(assertion, nil); err != nil {
+	if err := quick.Check(assertion, &quick.Config{MaxCount: 1000}); err != nil {
 		t.Error("failed checks", err)
 	}
 }

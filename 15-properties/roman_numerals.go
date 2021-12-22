@@ -6,12 +6,12 @@ import (
 
 var romanLiterals = []struct {
 	Symbol string
-	Value  int
+	Value  uint16
 }{
 	{"M", 1000},
 	{"CM", 900},
 	{"D", 500},
-	{"D", 400},
+	{"CD", 400},
 	{"C", 100},
 	{"L", 50},
 	{"XL", 40},
@@ -22,7 +22,7 @@ var romanLiterals = []struct {
 	{"I", 1},
 }
 
-func ConvertToArabic(roman string) (arabic int) {
+func ConvertToArabic(roman string) (arabic uint16) {
 	for _, literal := range romanLiterals {
 		if strings.HasPrefix(roman, literal.Symbol) {
 			arabic += literal.Value
@@ -34,12 +34,12 @@ func ConvertToArabic(roman string) (arabic int) {
 	return
 }
 
-func ConvertToRoman(arabic int) (roman string) {
+func ConvertToRoman(arabic uint16) (roman string) {
 
 	for _, literal := range romanLiterals {
 		count := arabic / literal.Value
 		arabic -= count * literal.Value
-		roman += strings.Repeat(literal.Symbol, count)
+		roman += strings.Repeat(literal.Symbol, int(count))
 	}
 	return
 
