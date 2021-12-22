@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"testing"
+	"testing/quick"
 )
 
 var cases = []struct {
@@ -24,6 +25,7 @@ var cases = []struct {
 	{"47 gets converted to XLVII", 47, "XLVII"},
 	{"49 gets converted to XLIX", 49, "XLIX"},
 	{"50 gets converted to L", 50, "L"},
+	{"583 gets converted to DLXXXIII", 583, "DLXXXIII"},
 	{"789 gets converted to DCCLXXXIX", 789, "DCCLXXXIX"},
 	{"1954 gets converted to MCMLIV", 1954, "MCMLIV"},
 	{"1984 gets converted to MCMLXXXIV", 1984, "MCMLXXXIV"},
@@ -49,5 +51,16 @@ func TestRomanNumerals(t *testing.T) {
 				t.Errorf("got %q, want %q", got, test.Roman)
 			}
 		})
+	}
+}
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(arabic int) bool {
+		roman := ConvertToRoman(arabic)
+		fromRoman := ConvertToArabic(roman)
+		return fromRoman == arabic
+	}
+
+	if err := quick.Check(assertion, nil); err != nil {
+		t.Error("failed checks", err)
 	}
 }
