@@ -16,3 +16,11 @@ Code Coverage
 go test -cover
 ```
 
+Benchmarking
+```
+go test -bench=. 
+```
+[Race Detector](https://go.dev/blog/race-detector)
+```
+go test -race . 
+```
