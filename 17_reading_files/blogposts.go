@@ -67,14 +67,19 @@ func newPost(postBody io.Reader) (Post, error) {
 		Title:       readMetaLine(titleSeparator),
 		Description: readMetaLine(descriptionSeparator),
 		Tags:        strings.Split(readMetaLine(tagSeparator), ", "),
+		Body:        readBody(scanner),
 	}
+
+	return post, nil
+}
+
+func readBody(scanner *bufio.Scanner) string {
 	scanner.Scan() // ignore a line
 
 	buf := bytes.Buffer{}
 	for scanner.Scan() {
 		fmt.Fprintln(&buf, scanner.Text())
 	}
+	return strings.TrimSuffix(buf.String(), "\n")
 
-	post.Body = strings.TrimSuffix(buf.String(), "\n")
-	return post, nil
 }
