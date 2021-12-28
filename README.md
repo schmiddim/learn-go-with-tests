@@ -31,3 +31,16 @@ network update for named packages
 ```
 go get -u  github.com/schmiddim/learn-go-with-tests/16-math 
 ```
+
+
+### Wire up a new project
+```
+mkdir blogposts
+cd blogposts
+go mod init github.com/{your-name}/blogposts
+touch blogposts_test.go
+```
+
+
+### Todos
+- Different Modules in same folder ... -> https://stackoverflow.com/a/67694381
