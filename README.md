@@ -10,17 +10,24 @@ https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/hello-world
 - [Context](https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/context) 
 # Useful things
 
-Code Coverage
+### Code Coverage
 
 ```
 go test -cover
 ```
 
-Benchmarking
+### Benchmarking
 ```
 go test -bench=. 
 ```
 [Race Detector](https://go.dev/blog/race-detector)
 ```
 go test -race . 
+```
+
+
+### Dependency Management
+network update for named packages
+```
+go get -u  github.com/schmiddim/learn-go-with-tests/16-math 
 ```
