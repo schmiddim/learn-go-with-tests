@@ -44,3 +44,4 @@ touch blogposts_test.go
 
 ### Todos
 - Different Modules in same folder ... -> https://stackoverflow.com/a/67694381
+- For that reason, it is recommended that you research The [Test Pyramid](https://quii.gitbook.io/learn-go-with-tests/build-an-application/http-server#integration-tests)
