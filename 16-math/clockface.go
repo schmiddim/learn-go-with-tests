@@ -41,8 +41,12 @@ const secondHandLength = 90
 const clockCentreX = 150
 const clockCentreY = 150
 
-// SecondHand is the unit vector of the second hand of an analogue clock at time `t`
-// represented as a Point.
+func angleToPoint(angle float64) Point {
+	x := math.Sin(angle)
+	y := math.Cos(angle)
+
+	return Point{x, y}
+}
 func SecondHand(t time.Time) Point {
 	p := secondHandPoint(t)
 	p = Point{p.X * secondHandLength, p.Y * secondHandLength}
@@ -50,18 +54,21 @@ func SecondHand(t time.Time) Point {
 	p = Point{p.X + clockCentreX, p.Y + clockCentreY} //translate
 	return p
 }
-
+func minuteHandPoint(t time.Time) Point {
+	return angleToPoint(minutesInRadians(t))
+}
 func secondHandPoint(t time.Time) Point {
-	angle := secondsInRadians(t)
-	x := math.Sin(angle)
-	y := math.Cos(angle)
-
-	return Point{x, y}
+	return angleToPoint(secondsInRadians(t))
 }
 func secondsInRadians(t time.Time) float64 {
-	return (math.Pi / (30 / (float64(t.Second()))))
+	return math.Pi / (30 / (float64(t.Second())))
 
 }
+func minutesInRadians(t time.Time) float64 {
+	return (secondsInRadians(t) / 60) +
+		(math.Pi / (30 / float64(t.Minute())))
+}
+
 func simpleTime(hours, minutes, seconds int) time.Time {
 	return time.Date(312, time.October, 28, hours, minutes, seconds, 0, time.UTC)
 }
