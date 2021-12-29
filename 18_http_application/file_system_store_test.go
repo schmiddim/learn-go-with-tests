@@ -1,16 +1,17 @@
 package main
 
 import (
-	"strings"
 	"testing"
 )
 
+//file_system_store_test.go
 func TestFileSystemStore(t *testing.T) {
 
 	t.Run("league from a reader", func(t *testing.T) {
-		database := strings.NewReader(`[
+		database, cleanDatabase := createTempFile(t, `[
             {"Name": "Cleo", "Wins": 10},
             {"Name": "Chris", "Wins": 33}]`)
+		defer cleanDatabase()
 
 		store := FileSystemPlayerStore{database}
 
@@ -23,14 +24,16 @@ func TestFileSystemStore(t *testing.T) {
 
 		assertLeague(t, got, want)
 
+		// read again
 		got = store.GetLeague()
 		assertLeague(t, got, want)
 	})
 
 	t.Run("get player score", func(t *testing.T) {
-		database := strings.NewReader(`[
-        {"Name": "Cleo", "Wins": 10},
-        {"Name": "Chris", "Wins": 33}]`)
+		database, cleanDatabase := createTempFile(t, `[
+            {"Name": "Cleo", "Wins": 10},
+            {"Name": "Chris", "Wins": 33}]`)
+		defer cleanDatabase()
 
 		store := FileSystemPlayerStore{database}
 
@@ -38,9 +41,7 @@ func TestFileSystemStore(t *testing.T) {
 		want := 33
 		assertScoreEquals(t, got, want)
 	})
-
 }
-
 func assertScoreEquals(t *testing.T, got int, want int) {
 	if got != want {
 		t.Errorf("did not get correct score, got %d, want %d", got, want)

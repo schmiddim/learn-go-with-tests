@@ -1,9 +1,14 @@
 package main
 
-import "io"
+import (
+	"io"
+	"io/ioutil"
+	"os"
+	"testing"
+)
 
 type FileSystemPlayerStore struct {
-	database io.ReadSeeker
+	database io.ReadWriteSeeker
 }
 
 func (f *FileSystemPlayerStore) GetLeague() []Player {
@@ -22,4 +27,23 @@ func (f *FileSystemPlayerStore) GetPlayerScore(name string) int {
 		}
 	}
 	return wins
+}
+
+func createTempFile(t testing.TB, initialData string) (io.ReadWriteSeeker, func()) {
+	t.Helper()
+
+	tmpfile, err := ioutil.TempFile("", "db")
+
+	if err != nil {
+		t.Fatalf("could not create temp file %v", err)
+	}
+
+	tmpfile.Write([]byte(initialData))
+
+	removeFile := func() {
+		tmpfile.Close()
+		os.Remove(tmpfile.Name())
+	}
+
+	return tmpfile, removeFile
 }
