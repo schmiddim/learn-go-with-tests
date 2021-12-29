@@ -74,7 +74,6 @@ func TestFileSystemStore(t *testing.T) {
 		assertScoreEquals(t, got, want)
 	})
 
-	//file_system_store_test.go
 	t.Run("works with an empty file", func(t *testing.T) {
 		database, cleanDatabase := createTempFile(t, "")
 		defer cleanDatabase()
