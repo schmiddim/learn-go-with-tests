@@ -1,10 +1,8 @@
 package main
 
 import (
+	"encoding/json"
 	"io"
-	"io/ioutil"
-	"os"
-	"testing"
 )
 
 type FileSystemPlayerStore struct {
@@ -29,21 +27,15 @@ func (f *FileSystemPlayerStore) GetPlayerScore(name string) int {
 	return wins
 }
 
-func createTempFile(t testing.TB, initialData string) (io.ReadWriteSeeker, func()) {
-	t.Helper()
+func (f *FileSystemPlayerStore) RecordWin(name string) {
+	league := f.GetLeague()
+	for i, player := range league {
 
-	tmpfile, err := ioutil.TempFile("", "db")
+		if player.Name == name {
 
-	if err != nil {
-		t.Fatalf("could not create temp file %v", err)
+			league[i].Wins++
+		}
 	}
-
-	tmpfile.Write([]byte(initialData))
-
-	removeFile := func() {
-		tmpfile.Close()
-		os.Remove(tmpfile.Name())
-	}
-
-	return tmpfile, removeFile
+	f.database.Seek(0, 0)
+	json.NewEncoder(f.database).Encode(league)
 }
