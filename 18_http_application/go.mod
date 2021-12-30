@@ -1,3 +1,4 @@
-module learn-go-with-tests/18_http_application
+module   github.com/quii/learn-go-with-tests/command-line/v3
+
 
 go 1.17

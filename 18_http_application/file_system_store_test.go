@@ -1,4 +1,4 @@
-package main
+package poker
 
 import (
 	"io/ioutil"
@@ -124,18 +124,18 @@ func assertNoError(t testing.TB, err error) {
 func createTempFile(t testing.TB, initialData string) (*os.File, func()) {
 	t.Helper()
 
-	tmpfile, err := ioutil.TempFile("", "db")
+	tmpFile, err := ioutil.TempFile("", "db")
 
 	if err != nil {
 		t.Fatalf("could not create temp file %v", err)
 	}
 
-	tmpfile.Write([]byte(initialData))
+	tmpFile.Write([]byte(initialData))
 
 	removeFile := func() {
-		tmpfile.Close()
-		os.Remove(tmpfile.Name())
+		tmpFile.Close()
+		os.Remove(tmpFile.Name())
 	}
 
-	return tmpfile, removeFile
+	return tmpFile, removeFile
 }
