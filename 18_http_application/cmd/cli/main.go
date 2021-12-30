@@ -2,7 +2,7 @@
 package main
 
 import (
-	poker "github.com/quii/learn-go-with-tests/command-line/v3"
+	poker "learn-go-with-tests/18_http_application"
 
 	"fmt"
 	"log"
@@ -27,6 +27,6 @@ func main() {
 		log.Fatalf("problem creating file system player store, %v ", err)
 	}
 
-	game := poker.CLI{store, os.Stdin}
+	game := poker.NewCLI(store, os.Stdin)
 	game.PlayPoker()
 }
